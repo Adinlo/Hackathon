@@ -1,0 +1,14 @@
+version: "3.1"
+services:
+  angular:
+    image: public.ecr.aws/z0b4y2d8/frontend:V2
+    restart: always
+    ports:
+      - 4200:80
+  api:
+    image: public.ecr.aws/z0b4y2d8/api:V2
+    restart: always
+    ports:
+      - 3000:3000
+    env_file:
+          - .env

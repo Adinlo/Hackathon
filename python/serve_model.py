@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from test_pygan import predict
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from io import StringIO
 import pandas as pd
@@ -9,6 +9,7 @@ app = FastAPI()
 
 UPLOAD_DIR = Path("data")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
 @app.get("/get_prediction/{run_id}")
 def get_prediction(run_id):
     predictions, num_wrong, num_correct, accuracy = predict()
@@ -19,13 +20,11 @@ def get_prediction(run_id):
 
 
 @app.post("/upload/")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(file: UploadFile = File(...), task: str = Form(...)):
     file_location = UPLOAD_DIR / file.filename
     with open(file_location, "wb") as f:
         f.write(await file.read())
-    return {"info": f"file '{file.filename}' saved at '{file_location}'"}
-
-
+    return {"info": f"file '{file.filename}' with task '{task}' saved at '{file_location}'"}
 @app.get("/")
 async def root():
    return {"main":"hello"}

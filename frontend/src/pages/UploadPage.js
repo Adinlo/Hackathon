@@ -4,16 +4,22 @@ import axios from 'axios';
 
 const UploadPage = () => {
   const [file, setFile] = useState(null);
+  const [task, setTask] = useState('regression');
   const [message, setMessage] = useState('');
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+  };
+  
+   const handleTaskChange = (event) => {
+    setTask(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('task', task);
 
     try {
       const response = await axios.post('http://localhost:8000/upload/', formData, {
@@ -41,6 +47,17 @@ const UploadPage = () => {
               onChange={handleFileChange}
               className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Select Task</label>
+            <select
+              value={task}
+              onChange={handleTaskChange}
+              className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="regression">Regression</option>
+              <option value="classification">Classification</option>
+            </select>
           </div>
           <button
             type="submit"

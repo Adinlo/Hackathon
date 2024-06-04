@@ -6,7 +6,7 @@ module.exports = {
     username: process.env.DEV_DB_USERNAME,
     password: process.env.DEV_DB_PASSWORD,
     database:  process.env.DEV_DB_NAME,
-    host: process.env.DB_URL,
+    host: process.env.DEV_DB_URL,
     port:  process.env.DEV_DB_PORT,
     dialect: 'mariadb',
     dialectOptions: {

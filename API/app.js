@@ -17,7 +17,7 @@ db.sequelize.sync()
   });
 
 const app = express();
-const allowedOrigins = ['http://localhost:4200', 'https://mileristovski.fr'];
+const allowedOrigins = ['http://localhost:3000', 'https://mileristovski.fr'];
 // We use helmet to secure our application headers
 app.use(helmet());
 

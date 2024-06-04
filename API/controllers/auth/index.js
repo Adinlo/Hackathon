@@ -83,7 +83,6 @@ class AuthController {
                         )
                         // 400 : bad request
                         .catch((error) => {
-                            console.log(error);
                             res.status(400).json({ message: error.errors[0].message });
                         });
                 })

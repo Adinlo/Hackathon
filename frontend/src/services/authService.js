@@ -24,6 +24,31 @@ class AuthService {
     };
 
     /**
+     * Registers the user!
+     * @param {String} name 
+     * @param {String} lastName 
+     * @param {String} email 
+     * @param {String} password 
+     */
+    async register(name, lastName, email, password) {
+        const data = JSON.stringify({
+            Password: password,
+            Email: email,
+            Name: name,
+            LastName: lastName,
+        });
+
+        const response = await axios.post('http://192.168.247.142:3001/register', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("userId", response.data.userId);
+    }
+
+    /**
      * Verifies if the user is logged in
      * @returns True if the user is logged in!
      */
@@ -35,7 +60,6 @@ class AuthService {
             await axios.get('http://192.168.247.142:3001/me', {
                 headers: headers
             });
-
             return true
         } catch (err) {
             return false

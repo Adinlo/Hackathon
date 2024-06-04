@@ -2,15 +2,17 @@
 import React, { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { FaUserPlus } from 'react-icons/fa';
 import AuthService from '../services/authService'
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const authService = new AuthService();
   const [message, setMessage] = useState('');
+  const [severity, setSeverity] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [severity, setSeverity] = useState('');
 
   const successLogin = () => {
     setMessage("Logged in!");
@@ -22,7 +24,6 @@ const LoginPage = () => {
     console.error(`Error uploading file: ${message}`);
     setMessage(message);
     setSeverity("error");
-    setTimeout(() => setMessage(''), 2500)
   }
 
   const handleSubmit = async (event) => {
@@ -52,7 +53,9 @@ const LoginPage = () => {
           </div>
           <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">Login</button>
           <div className="flex items-center justify-center pt-5">
-            <a href="/signup" className="underline underline-offset-1 text-slate-700">Sign up!</a>
+          <Link to="/signup" className="flex items-center p-2 text-gray-700 rounded hover:bg-gray-200">
+                <FaUserPlus className="mr-2" /> Don't have an account ?
+              </Link>
           </div>
         </form>
         {message && <Alert severity={severity}>{message}</Alert>}

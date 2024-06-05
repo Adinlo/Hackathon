@@ -267,7 +267,3 @@ def run_genetic_algorithm(filepath, n_population=10, n_generations=10):
     loss, accuracy = best_model.evaluate(X_test, y_test, verbose=0)
     return history, best_structure, best_individual.fitness.values, best_individual.accuracy,best_individual.raw_loss,loss 
 
-filepath = 'iris.csv'  
-hist, _, _, _, _,_ =  run_genetic_algorithm(filepath)
-for i in hist.history:
- print(i)

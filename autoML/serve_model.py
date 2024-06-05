@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 import random
 from fastapi.middleware.cors import CORSMiddleware
-#from genetic_ann import run_genetic_algorithm
+from genetic_ann import run_genetic_algorithm
 from fastapi import FastAPI, Request
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -35,33 +35,18 @@ class Metrics(BaseModel):
     loss : float 
     number_of_generations : int
     best_generation: int    
-'''
-@app.get("/metrics", response_model=Metrics)
-async def get_metrics():
-    hist, _, fitness_list, accuracy, raw_loss, loss_list = run_genetic_algorithm("test.csv")
-    data = Metrics(
-            accuracy= accuracy,
-            fitness = max(fitness_list),
-            loss= raw_loss,
-            number_of_generations=10,
-            best_generation=0
-    )
-    return data
-'''
 
-@app.get("/get-session/")
-async def get_session(request: Request):
-    user_id = request.session.get('user_id', 'Not set')  # Retrieve user ID from session
-    return {"user_id": user_id}
 
 @app.post("/upload/")
 async def upload_file(file: UploadFile = File(...), task: str = Form(...)):
     file_location = UPLOAD_DIR / file.filename
+
     with open(file_location, "wb") as f:
-        f.write(await file.read())
-    return {"info": f"file '{file.filename}' with task '{task}' saved at '{file_location}'"}
+         f.write(await file.read())
 
+    hist, _, fitness_list, accuracy, raw_loss, loss_list = run_genetic_algorithm(file_location)
 
+<<<<<<< HEAD
 @app.get("/csv/{name_csv}")
 async def get_csv(name_csv: str):
     file_location = UPLOAD_DIR / name_csv
@@ -71,6 +56,17 @@ async def get_csv(name_csv: str):
         return JSONResponse(status_code=404, content={"message": "File not found"})
 
 
+=======
+    data = Metrics(
+        accuracy=accuracy,
+        fitness=max(fitness_list),
+        loss=raw_loss,
+        number_of_generations=len(fitness_list),   
+        best_generation=fitness_list.index(max(fitness_list))  
+    )
+
+    return data.dict()
+>>>>>>> 6bd42a6 (served model)
 @app.get("/")
 async def root():
    return {"main":"hello"}

@@ -6,10 +6,12 @@ import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 import GuardedRoute from './guards/guardedRoute';
 import Dashboard from './pages/DashboardPage'; 
+import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />

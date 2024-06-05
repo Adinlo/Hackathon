@@ -41,7 +41,11 @@ const SignupPage = () => {
 
         successRegister();
       } catch(err) {
-        failRegister(err.response.data.message)
+        try { 
+          failRegister(err.response.data.message)
+        } catch(err) {
+          failRegister("Unkown error!")
+        }
       }
     }
   };

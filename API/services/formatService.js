@@ -23,6 +23,19 @@ class FormatService {
             PostalCode: user.PostalCode
         };
     }
+
+    async metricsFormat(metric) {
+        return {
+            id: metric.id,
+            Accuracy: metric.accuracy,
+            Metric: metric.metric,
+            NumberOfGenerations: metric.numberOfGenerations,
+            Fitness: metric.fitness,
+            NumberOfCorrectPredictions: metric.numberOfCorrectPredictions,
+            BestGeneration: metric.bestGeneration,
+            PathCsv: metric.pathCsv,
+        }
+    }
 }
 
 // Export an instance of the class

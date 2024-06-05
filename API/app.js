@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
+const metricsRoutes = require('./routes/metrics');
 
 db.sequelize.sync()
   .then(() => {
@@ -42,5 +43,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(userRoutes);
 app.use(authRoutes);
+app.use(metricsRoutes);
 
 module.exports = app;

@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       pathCsv: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
     },
     {

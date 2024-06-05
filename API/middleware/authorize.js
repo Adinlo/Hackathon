@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const db = require('../db/models');
 const User = db.User;
-const Car = db.Car;
+const Metrics = db.Metrics;
 
 async function getUserRoleCompany(userId) {
     const user = await User.findOne({ where: { id: userId } });
@@ -14,12 +14,8 @@ exports.jwtUserAuth = async (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
         const { userId } = decodedToken;
-        const role = (await getUserRoleCompany(userId)).role;
-        const companyId = (await getUserRoleCompany(userId)).companyId;
         req.auth = {
-            userId,
-            role,
-            companyId
+            userId
         };
         next();
     } catch (error) {
@@ -28,31 +24,12 @@ exports.jwtUserAuth = async (req, res, next) => {
     }
 };
 
-exports.sellerAuth = async (req, res, next) => {
-    const user = await User.findByPk(req.auth.userId);
-    if(!user && req.auth.role < 0) {
-        return res.status(401).json({ message: 'Not authorized' });
-    }
-    next();
-}
-
-exports.adminAuth = (req, res, next) => {
-    if (!req.auth.role > 0) {
-        return res.status(401).json({message: 'Unauthorized'});
-    }
-    next();
-}
-
-exports.adminOrSelfAuth = (req, res, next) => {
-    if (!req.auth.role < 0 && req.auth.userId != req.params.userId) {
-        return res.status(401).json({message: 'Unauthorized'});
-    }
-    next();
-}
-
-exports.superAdminAuth = (req, res, next) => {
-    if (req.auth.role !== 2) {
-        return res.status(401).json({message: 'Unauthorized'});
+exports.userHasMetric = async (req, res, next) => {
+    const metric = await Metrics.findByPk(req.params.metricsId);
+    console.log(metric.userId);
+    console.log(req.auth.userId);
+    if (metric.userId !== parseInt(req.auth.userId)) {
+        return res.status(401).json({message: 'Not authorized'});
     }
     next();
 }

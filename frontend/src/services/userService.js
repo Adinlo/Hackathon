@@ -8,7 +8,7 @@ class UserService {
      * @returns The response of the get request.
      */
     async getUser() {
-        const response = await axios.post(URL.ME, data, {
+        const response = await axios.get(URL.ME, {
             headers: {
                 'Content-Type': 'application/json'
             }

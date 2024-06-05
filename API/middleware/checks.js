@@ -1,41 +1,11 @@
 const db = require('../db/models');
-const Car = db.Car;
-const CarImage = db.CarImage;
-const CarDetail = db.CarDetail;
-const Company = db.Company;
-const CompanyLogo = db.CompanyLogo;
 const User = db.User;
+const Metrics = db.Metrics;
 
-exports.carCheck = async (req, res, next) => {
-    const car = await Car.findAll({where : {id: req.params.carId}});
-    if (car.length === 0) {
-        return res.status(404).json({message: 'Car not found !'});
-    }
-    next();
-}
-
-exports.imageCheck = async (req, res, next) => {
-    const image = await CarImage.findAll({where : {id: req.params.imageId}});
-    if (image.length === 0) {
-        return res.status(404).json({message: 'Image not found'});
-    }
-    
-    next();
-}
-
-exports.detailCheck = async (req, res, next) => {
-    const detail = await CarDetail.findAll({where : {id: req.params.detailId}});
-    if (detail.length === 0) {
-        return res.status(404).json({message: 'Detail not found'});
-    }
-
-    next();
-}
-
-exports.imageExistsCheck = async (req, res, next) => {
-    const companyLogo = await CompanyLogo.findOne({where : {CompanyID: req.params.companyId}});
-    if (companyLogo) {
-        return res.status(500).json({ message: 'Only 1 image allowed!' });
+exports.metricCheck = async (req, res, next) => {
+    const metric = await Metrics.findOne({where : {id: req.params.metricsId}});
+    if (metric.length === 0) {
+        return res.status(404).json({message: 'Metric not found!'});
     }
     next();
 }

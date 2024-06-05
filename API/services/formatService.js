@@ -27,13 +27,13 @@ class FormatService {
     async metricsFormat(metric) {
         return {
             id: metric.id,
-            Accuracy: metric.accuracy,
-            Metric: metric.metric,
-            NumberOfGenerations: metric.numberOfGenerations,
-            Fitness: metric.fitness,
-            NumberOfCorrectPredictions: metric.numberOfCorrectPredictions,
-            BestGeneration: metric.bestGeneration,
-            PathCsv: metric.pathCsv,
+            accuracy: metric.accuracy,
+            metric: metric.metric,
+            numberOfGenerations: metric.numberOfGenerations,
+            fitness: metric.fitness,
+            numberOfCorrectPredictions: metric.numberOfCorrectPredictions,
+            bestGeneration: metric.bestGeneration,
+            pathCsv: metric.pathCsv,
         }
     }
 }

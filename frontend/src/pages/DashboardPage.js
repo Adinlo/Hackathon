@@ -3,26 +3,45 @@ import React from 'react';
 import { Container, Grid, Card, CardContent, Typography } from '@mui/material';
 import { Line } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import 'chart.js/auto';
+import RingLoader from "react-spinners/RingLoader";
+import MetricsService from '../services/metricsService';
+import { useParams, useNavigate } from 'react-router-dom';
+
 const Dashboard = () => {
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
+    const metricsService = new MetricsService();
+
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/metrics');
-        setData(response.data);
+        const response = await metricsService.getMetric(id);
+        setData(response);
       } catch (error) {
         console.error("Error fetching data:", error);
+        navigate('/')
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <div className='flex items-center justify-center mt-[100px] flex-col'>
+    <div className='text-2xl font-bold text-center p-[40px] text-white'>Loading</div>
+    <RingLoader
+      loading={true}
+      color="#ffffff"
+      size={300}
+      cssOverride={{}}
+      speedMultiplier={1}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
+  </div>;
   }
 
   const chartData = {
@@ -71,7 +90,7 @@ const Dashboard = () => {
               <Typography variant="h6" gutterBottom>
                 Correct Predictions
               </Typography>
-              <Typography variant="h4">{data.number_of_correct_predictions}</Typography>
+              <Typography variant="h4">{data.numberOfCorrectPredictions}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -91,7 +110,7 @@ const Dashboard = () => {
               <Typography variant="h6" gutterBottom>
                 Number of Generations
               </Typography>
-              <Typography variant="h4">{data.number_of_generations}</Typography>
+              <Typography variant="h4">{data.numberOfGenerations}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -101,7 +120,7 @@ const Dashboard = () => {
               <Typography variant="h6" gutterBottom>
                 Best Generation
               </Typography>
-              <Typography variant="h4">{data.best_generation}</Typography>
+              <Typography variant="h4">{data.bestGeneration}</Typography>
             </CardContent>
           </Card>
         </Grid>

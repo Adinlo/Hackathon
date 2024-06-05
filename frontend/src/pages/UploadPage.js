@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
 import { parse } from 'csv-parse/browser/esm';
-import { FaTachometerAlt, FaUpload, FaHome } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 
 const UploadPage = () => {
   const [file, setFile] = useState(null);
@@ -46,7 +44,8 @@ const UploadPage = () => {
     formData.append('task', task);
 
     try {
-      const response = await axios.post('http://localhost:8000/upload/', formData, {
+      const userId = sessionStorage.getItem('userId');
+      const response = await axios.post(`http://localhost:8000/upload/${userId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

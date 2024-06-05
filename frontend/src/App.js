@@ -18,7 +18,7 @@ const App = () => {
         <Route element={<GuardedRoute />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/upload" element={<UploadPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:id" element={<Dashboard />} />
         </Route>
       </Routes>
     </Router>

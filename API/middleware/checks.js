@@ -4,7 +4,11 @@ const Metrics = db.Metrics;
 
 exports.metricCheck = async (req, res, next) => {
     const metric = await Metrics.findOne({where : {id: req.params.metricsId}});
-    if (metric.length === 0) {
+    try {
+        if (metric.length === 0) {
+            return res.status(404).json({message: 'Metric not found!'});
+        }
+    } catch(err) {
         return res.status(404).json({message: 'Metric not found!'});
     }
     next();

@@ -26,8 +26,7 @@ exports.jwtUserAuth = async (req, res, next) => {
 
 exports.userHasMetric = async (req, res, next) => {
     const metric = await Metrics.findByPk(req.params.metricsId);
-    console.log(metric.userId);
-    console.log(req.auth.userId);
+
     if (metric.userId !== parseInt(req.auth.userId)) {
         return res.status(401).json({message: 'Not authorized'});
     }

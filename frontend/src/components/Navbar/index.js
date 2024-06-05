@@ -18,14 +18,12 @@ const Navbar = () => {
                     <NavLink to="/" >
                         <FaHome className="mr-2" />Home
                     </NavLink>
-                    <NavLink to="/dashboard" activeStyle>
+                    {/* <NavLink to="/dashboard" activeStyle>
                         <FaTachometerAlt className="mr-2" />Dashboard
-                    </NavLink>
+                    </NavLink> */}
                     <NavLink to="/upload" activeStyle>
                         <FaUpload className="mr-2" /> Upload 
                     </NavLink>
-                    {/* Second Nav */}
-                    {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
                 </NavMenu>
                 <NavBtn>
                     <NavBtnLink to="/login">

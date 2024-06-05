@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Container, Grid, Card, CardContent, Typography } from '@mui/material';
 import { Line } from 'react-chartjs-2';
@@ -7,11 +6,13 @@ import 'chart.js/auto';
 import RingLoader from "react-spinners/RingLoader";
 import MetricsService from '../services/metricsService';
 import { useParams, useNavigate } from 'react-router-dom';
+import Papa from 'papaparse';
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
+  const [csvData, setCsvData] = useState([]);
 
   useEffect(() => {
     const metricsService = new MetricsService();
@@ -27,8 +28,35 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [navigate]);
+  }, [navigate, id]);
 
+  useEffect(() => {
+    const fetchCsv = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/csv/clients_bdd.csv`);
+        const reader = response.body.getReader();
+        const result = await reader.read(); // raw array buffer
+        const decoder = new TextDecoder('utf-8');
+        const csvText = decoder.decode(result.value); // decoded text
+
+        // Parse the CSV text using PapaParse
+        Papa.parse(csvText, {
+          header: true,
+          complete: (results) => {
+            setCsvData(results.data);
+          },
+          error: (error) => {
+            console.error('Error parsing CSV:', error);
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching CSV:', error);
+      }
+    };
+
+    fetchCsv();
+  }, []);
+  console.log(csvData[1]);
   if (!data) {
     return <div className='flex items-center justify-center mt-[100px] flex-col'>
     <div className='text-2xl font-bold text-center p-[40px] text-white'>Loading</div>
@@ -78,9 +106,9 @@ const Dashboard = () => {
           <Card className="bg-green-50">
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                Metric
+                RMSE
               </Typography>
-              <Typography variant="h4">{data.metric}</Typography>
+              <Typography variant="h4">{data.rmse}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -88,9 +116,9 @@ const Dashboard = () => {
           <Card className="bg-yellow-50">
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                Correct Predictions
+                Loss
               </Typography>
-              <Typography variant="h4">{data.numberOfCorrectPredictions}</Typography>
+              <Typography variant="h4">{data.loss}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -105,12 +133,12 @@ const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card className="bg-purple-50">
+          <Card className="bg-purple-50  mb-8">
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                Number of Generations
+                Fitness
               </Typography>
-              <Typography variant="h4">{data.numberOfGenerations}</Typography>
+              <Typography variant="h4">{data.fitness}</Typography>
             </CardContent>
           </Card>
         </Grid>

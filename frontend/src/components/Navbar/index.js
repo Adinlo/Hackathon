@@ -7,7 +7,7 @@ import {
     NavBtn,
     NavBtnLink,
 } from "./NavbarElements";
-import { FaTachometerAlt, FaUpload, FaHome  } from 'react-icons/fa';
+import { FaUpload, FaHome  } from 'react-icons/fa';
 
 const Navbar = () => {
     return (

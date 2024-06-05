@@ -28,11 +28,9 @@ class FormatService {
         return {
             id: metric.id,
             accuracy: metric.accuracy,
-            metric: metric.metric,
-            numberOfGenerations: metric.numberOfGenerations,
+            rmse: metric.rmse,
+            loss: metric.loss,
             fitness: metric.fitness,
-            numberOfCorrectPredictions: metric.numberOfCorrectPredictions,
-            bestGeneration: metric.bestGeneration,
             pathCsv: metric.pathCsv,
         }
     }

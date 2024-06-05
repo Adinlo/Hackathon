@@ -16,24 +16,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: false,
       },
-      metric: {
+      rmse: {
         type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      numberOfGenerations: {
-        type: DataTypes.INTEGER,
         allowNull: false,
       },
       fitness: {
         type: DataTypes.JSON,
         allowNull: false,
       },
-      numberOfCorrectPredictions: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      bestGeneration: {
-        type: DataTypes.INTEGER,
+      loss: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },      
       pathCsv: {

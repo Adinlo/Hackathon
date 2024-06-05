@@ -1,4 +1,4 @@
-const baseUrl = "http://192.168.247.142:3001"
+const baseUrl = "http://localhost:3001"
 
 const URL = {
     ME:`${baseUrl}/me`,

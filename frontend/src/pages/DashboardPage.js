@@ -5,9 +5,6 @@ import { Line } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'chart.js/auto';
-
-
-
 const Dashboard = () => {
   const [data, setData] = useState(null);
 
@@ -44,7 +41,7 @@ const Dashboard = () => {
 
   return (
     <Container className="mt-10">
-      <Typography variant="h4" className="text-center mb-10">
+      <Typography variant="h4" className="text-center text-white mb-10">
         Genetically Optimized Deep Learning Network Dashboard
       </Typography>
       <Grid container spacing={3}>
@@ -99,7 +96,7 @@ const Dashboard = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card className="bg-red-50">
+          <Card className="bg-red-50 mb-8">
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Best Generation

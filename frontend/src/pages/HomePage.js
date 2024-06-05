@@ -1,28 +1,10 @@
 // src/pages/HomePage.js
-import React, { useMemo, useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaTachometerAlt, FaUpload } from 'react-icons/fa';
-import UserService from '../services/userService';
+import { FaTachometerAlt, FaUpload, FaHome  } from 'react-icons/fa';
 
 
 const HomePage = () => {
-  // const userService = new UserService();
-  // const [name, setName] = useState(null);
-  // const [lastName, setLastName] = useState(null);
-
-
-  // useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     try {
-  //       const user = await userService.getUser();
-  //     } catch(err) {
-
-  //     }
-  //     setName(user.name);
-  //     setName(user.lastName);
-  //   };
-  //   checkLoginStatus();
-  // }, [userService]);
 
   return (
     <div className="flex min-h-screen">
@@ -30,11 +12,16 @@ const HomePage = () => {
         <div className="p-4">
           <h2 className="text-2xl font-bold">Menu</h2>
           <ul className="mt-6 space-y-2">
-            {/* <li>
+            <li>
               <Link to="/" className="flex items-center p-2 text-gray-700 rounded hover:bg-gray-200">
+                <FaHome className="mr-2" /> Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/dashboard" className="flex items-center p-2 text-gray-700 rounded hover:bg-gray-200">
                 <FaTachometerAlt className="mr-2" /> Dashboard
               </Link>
-            </li> */}
+            </li>
             <li>
               <Link to="/upload" className="flex items-center p-2 text-gray-700 rounded hover:bg-gray-200">
                 <FaUpload className="mr-2" /> Upload

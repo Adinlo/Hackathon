@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from test_pygan import predict
 from fastapi import FastAPI, File, UploadFile, Form
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from io import StringIO
 import pandas as pd
 from pathlib import Path
@@ -60,6 +60,15 @@ async def upload_file(file: UploadFile = File(...), task: str = Form(...)):
     with open(file_location, "wb") as f:
         f.write(await file.read())
     return {"info": f"file '{file.filename}' with task '{task}' saved at '{file_location}'"}
+
+
+@app.get("/csv/{name_csv}")
+async def get_csv(name_csv: str):
+    file_location = UPLOAD_DIR / name_csv
+    if file_location.exists() and file_location.is_file():
+        return FileResponse(path=file_location, filename=name_csv, media_type='text/csv')
+    else:
+        return JSONResponse(status_code=404, content={"message": "File not found"})
 
 
 @app.get("/")

@@ -1,23 +1,11 @@
 // src/pages/HomePage.js
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaTachometerAlt, FaUpload } from 'react-icons/fa';
-import AuthService from '../services/authService'
-import { useNavigate } from "react-router-dom";
+
 
 const HomePage = () => {
-  // const authService = useMemo(() => new AuthService(), []);
-  // const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     const isLoggedIn = await authService.verifyLogin();
-  //     if (!isLoggedIn) {
-  //       navigate("/login")
-  //     }
-  //   };
-  //   checkLoginStatus();
-  // }, [authService, navigate]);
 
   return (
     <div className="flex min-h-screen bg-gray-100">

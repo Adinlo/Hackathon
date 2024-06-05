@@ -61,8 +61,8 @@ const UploadPage = () => {
   };
 
   return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-4">
-        <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg mb-8">
+      <div className="flex flex-col items-center justify-center p-2 mt-[10%]">
+        <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
           <h2 className="text-2xl font-bold text-center">Upload CSV</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>

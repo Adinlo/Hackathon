@@ -10,6 +10,7 @@ import Papa from 'papaparse';
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
+  const [extractedNames, setExtractedNames] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
   const [csvData, setCsvData] = useState([]);
@@ -43,6 +44,8 @@ const Dashboard = () => {
         Papa.parse(csvText, {
           header: true,
           complete: (results) => {
+            const extractedNames = results.data.map(row => row.name);
+            setExtractedNames(extractedNames);
             setCsvData(results.data);
           },
           error: (error) => {
@@ -56,7 +59,7 @@ const Dashboard = () => {
 
     fetchCsv();
   }, []);
-  console.log(csvData[1]);
+  console.log(extractedNames);
   if (!data) {
     return <div className='flex items-center justify-center mt-[100px] flex-col'>
     <div className='text-2xl font-bold text-center p-[40px] text-white'>Loading</div>

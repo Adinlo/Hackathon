@@ -30,8 +30,8 @@ const HomePage = () => {
               <div key={metric.id} className="p-4 mb-4 bg-white shadow-md rounded">
                 <h2 className="text-xl font-bold">Metric ID: {metric.id}</h2>
                 <p>Accuracy: {metric.accuracy}</p>
-                <p>Metric: {metric.metric}</p>
-                <p>Best Generation: {metric.bestGeneration}</p>
+                <p>RMSE: {metric.rmse}</p>
+                <p>Loss: {metric.loss}</p>
               </div>
             </Link>
           ))}

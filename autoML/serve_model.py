@@ -1,17 +1,22 @@
 from fastapi import FastAPI
-from test_pygan import predict
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse, FileResponse
 from io import StringIO
 import pandas as pd
 from pathlib import Path
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 import random
 from fastapi.middleware.cors import CORSMiddleware
+#from genetic_ann import run_genetic_algorithm
+from fastapi import FastAPI, Request
+from starlette.middleware.sessions import SessionMiddleware
+
+
 
 app = FastAPI()
 app.add_middleware(
+
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
@@ -23,36 +28,31 @@ app.add_middleware(
 UPLOAD_DIR = Path("data")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
-@app.get("/get_prediction/{run_id}")
-def get_prediction(run_id):
-    predictions, num_wrong, num_correct, accuracy = predict()
-    return {"runId": run_id,
-                       "num_wrong": num_wrong,
-                       "num_correct":num_correct,
-                       "accuracy": accuracy}
 
 class Metrics(BaseModel):
-    accuracy: float
-    metric: float
-    number_of_generations: int
-    fitness: List[float]
-    number_of_correct_predictions: int
-    best_generation: int
-
-
+    accuracy: Optional[float]
+    fitness: float
+    loss : float 
+    number_of_generations : int
+    best_generation: int    
+'''
 @app.get("/metrics", response_model=Metrics)
 async def get_metrics():
-    number_of_generations = 50
-    fitness = [random.uniform(0, 1) for _ in range(number_of_generations)]
+    hist, _, fitness_list, accuracy, raw_loss, loss_list = run_genetic_algorithm("test.csv")
     data = Metrics(
-        accuracy=random.uniform(0.8, 1.0),
-        metric=random.uniform(0.7, 0.9),
-        number_of_generations=number_of_generations,
-        fitness=fitness,
-        number_of_correct_predictions=random.randint(400, 500),
-        best_generation=random.randint(1, number_of_generations)
+            accuracy= accuracy,
+            fitness = max(fitness_list),
+            loss= raw_loss,
+            number_of_generations=10,
+            best_generation=0
     )
     return data
+'''
+
+@app.get("/get-session/")
+async def get_session(request: Request):
+    user_id = request.session.get('user_id', 'Not set')  # Retrieve user ID from session
+    return {"user_id": user_id}
 
 @app.post("/upload/")
 async def upload_file(file: UploadFile = File(...), task: str = Form(...)):

@@ -12,14 +12,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Metrics.init(
     {
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-      },
       accuracy: {
         type: DataTypes.FLOAT,
         allowNull: false,
@@ -42,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       bestGeneration: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },      
+      pathCsv: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },

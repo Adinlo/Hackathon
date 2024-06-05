@@ -1,17 +1,37 @@
 // src/pages/UploadPage.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { parse } from 'csv-parse/browser/esm';
 
 const UploadPage = () => {
   const [file, setFile] = useState(null);
   const [task, setTask] = useState('regression');
   const [message, setMessage] = useState('');
+  const [csvData, setCsvData] = useState([]);
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const file = event.target.files[0];
+    setFile(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        parse(text, {
+          columns: true,
+          skip_empty_lines: true
+        }, (err, records) => {
+          if (err) {
+            console.error('Error parsing CSV:', err);
+          } else {
+            setCsvData(records);
+          }
+        });
+      };
+      reader.readAsText(file);
+    }
   };
-  
-   const handleTaskChange = (event) => {
+
+  const handleTaskChange = (event) => {
     setTask(event.target.value);
   };
 
@@ -35,8 +55,8 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg mb-8">
         <h2 className="text-2xl font-bold text-center">Upload CSV</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -68,6 +88,35 @@ const UploadPage = () => {
         </form>
         {message && <p className="mt-4 text-center">{message}</p>}
       </div>
+      {csvData.length > 0 && (
+        <div className="w-full max-w-4xl bg-white shadow-md rounded-lg overflow-hidden">
+          <h3 className="text-xl font-bold p-4 bg-gray-200">CSV Data</h3>
+          <div className="overflow-auto max-h-96">
+            <table className="min-w-full bg-white border">
+              <thead className="bg-gray-50">
+                <tr>
+                  {Object.keys(csvData[0]).map((key) => (
+                    <th key={key} className="px-4 py-2 border text-left text-sm font-medium text-gray-500">
+                      {key}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {csvData.map((row, index) => (
+                  <tr key={index}>
+                    {Object.values(row).map((value, i) => (
+                      <td key={i} className="px-4 py-2 border text-sm text-gray-700">
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

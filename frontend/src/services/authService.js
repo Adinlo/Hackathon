@@ -1,4 +1,5 @@
 import axios from 'axios';
+import URL from '../constants/urls'
 
 class AuthService {
     /**
@@ -13,7 +14,7 @@ class AuthService {
         });
 
         console.log(data);
-        const response = await axios.post('http://192.168.247.142:3001/login', data, {
+        const response = await axios.post(URL.LOGIN, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -38,7 +39,7 @@ class AuthService {
             LastName: lastName,
         });
 
-        const response = await axios.post('http://192.168.247.142:3001/register', data, {
+        const response = await axios.post(URL.REGISTER, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -57,7 +58,7 @@ class AuthService {
         const headers = { 'Authorization': `Bearer ${token}` };
     
         try {
-            await axios.get('http://192.168.247.142:3001/me', {
+            await axios.get(URL.ME, {
                 headers: headers
             });
             return true
